@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Haidara | Software Engineer</title>
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
+        rel="stylesheet">
+    <script src="https://unpkg.com/lucide@latest"></script>
+    <script src="https://cdn.jsdelivr.net/npm/simple-icons@v9/index.js"></script>
+    <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
+
+    <style>
+        :root {
+            --primary: #00f2fe;
+            --secondary: #4facfe;
+            --bg: #05070a;
+            --card-bg: rgba(255, 255, 255, 0.03);
+            --border: rgba(255, 255, 255, 0.1);
+            --text-main: #ffffff;
+            --text-dim: #94a3b8;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body {
+            background-color: var(--bg);
+            color: var(--text-main);
+            overflow-x: hidden;
+            scroll-behavior: smooth;
+        }
+
+        /* Animated Gradient Background */
+        .mesh {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: radial-gradient(circle at 0% 0%, rgba(79, 172, 254, 0.15) 0%, transparent 50%),
+                radial-gradient(circle at 100% 100%, rgba(0, 242, 254, 0.1) 0%, transparent 50%);
+            z-index: -1;
+        }
+
+        .container {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        section {
+            padding: 120px 0;
+        }
+
+        /* --- HERO --- */
+        .hero {
+            height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+        }
+
+        .hero h1 {
+            font-size: clamp(3.5rem, 10vw, 6rem);
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 20px;
+        }
+
+        .hero span {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            background-clip: text;
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+
+        .hero p {
+            font-size: 1.2rem;
+            color: var(--text-dim);
+            max-width: 650px;
+            margin-bottom: 40px;
+        }
+
+        /* --- SKILLS GRID --- */
+        .skills-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+            gap: 20px;
+        }
+
+        .skill-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 25px;
+            border-radius: 20px;
+            text-align: center;
+            transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            gap: 15px;
+            backdrop-filter: blur(10px);
+        }
+
+        .skill-card:hover {
+            transform: translateY(-10px);
+            border-color: var(--primary);
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.1);
+            background: rgba(255, 255, 255, 0.06);
+        }
+
+        .skill-card i,
+        .skill-card img {
+            width: 40px;
+            height: 40px;
+            color: var(--primary);
+        }
+
+        .skill-name {
+            font-weight: 600;
+            font-size: 0.95rem;
+        }
+
+        /* --- PROJECTS --- */
+        .projects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 30px;
+        }
+
+        .project-card {
+            background: var(--card-bg);
+            border-radius: 24px;
+            border: 1px solid var(--border);
+            padding: 30px;
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+            cursor: pointer;
+        }
+
+        .project-card:hover {
+            border-color: var(--secondary);
+            background: rgba(255, 255, 255, 0.05);
+            transform: translateY(-5px);
+        }
+        
+        a[href*="github"] .project-card:hover {
+            box-shadow: 0 10px 30px rgba(0, 242, 254, 0.15);
+        }
+
+        .project-card h3 {
+            font-size: 1.5rem;
+            margin-bottom: 10px;
+        }
+
+        .project-tags {
+            display: flex;
+            gap: 8px;
+            margin-top: 20px;
+            flex-wrap: wrap;
+        }
+
+        .tag {
+            font-size: 0.7rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            background: rgba(255, 255, 255, 0.05);
+            padding: 5px 12px;
+            border-radius: 100px;
+            color: var(--secondary);
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 15px 35px;
+            border-radius: 12px;
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #000;
+            font-weight: 800;
+            text-decoration: none;
+            transition: 0.3s;
+        }
+
+        .btn:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 20px rgba(0, 242, 254, 0.4);
+        }
+
+        footer {
+            padding: 80px 0;
+            border-top: 1px solid var(--border);
+            text-align: center;
+        }
+
+        .socials {
+            display: flex;
+            justify-content: center;
+            gap: 25px;
+            margin-bottom: 20px;
+        }
+
+        .socials a {
+            color: var(--text-dim);
+            transition: 0.3s;
+        }
+
+        .socials a:hover {
+            color: var(--primary);
+            transform: translateY(-3px);
+        }
+
+        @media (max-width: 768px) {
+            .hero h1 {
+                font-size: 3rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <div class="mesh"></div>
+
+    <div class="container">
+        <section class="hero" data-aos="fade-up">
+            <p style="color: var(--primary); font-weight: 600; letter-spacing: 2px;">GRADUATE SOFTWARE ENGINEER</p>
+            <h1>I'm <span>Haidara.</span></h1>
+            <p id="tagline-text"></p>
+            <div>
+                <a href="#projects" class="btn">View Projects</a>
+            </div>
+        </section>
+
+        <section id="skills">
+            <h2 style="margin-bottom: 40px; font-size: 2.5rem;" data-aos="fade-right">Expertise</h2>
+            <div class="skills-grid" id="skills-list"></div>
+        </section>
+
+        <section id="projects">
+            <h2 style="margin-bottom: 40px; font-size: 2.5rem;" data-aos="fade-right">Selected Works</h2>
+            <div class="projects-grid" id="projects-list"></div>
+        </section>
+
+        <footer>
+            <div class="socials" id="social-links"></div>
+            <p style="color: var(--text-dim);">Designed for performance. &copy; <span id="year"></span> Haidara.</p>
+        </footer>
+    </div>
+
+    <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
+    <script>
+        const CONFIG = {
+            tagline: "CS Graduate crafting high-concurrency Python systems, automated Telegram ecosystems, and feature-rich Flutter applications.",
+            // Icons from Lucide or SimpleIcons slugs
+            skills: [
+                { name: "Python (Expert)", icon: "terminal" },
+                { name: "Django / DRF", icon: "server" },
+                { name: "Telegram Automation", icon: "send" },
+                { name: "Flutter", icon: "smartphone" },
+                { name: "React", icon: "layers" },
+                { name: "SQL", icon: "database" },
+                { name: "MongoDB", icon: "server" },
+                { name: "CS Core", icon: "book-open" }
+            ],
+            projects: [
+                {
+                    title: "Enterprise CRM Ecosystem",
+                    desc: "A full-scale CRM suite comprising a Django REST backend, a Flutter mobile app for clients, and a React admin dashboard. Features complex role-based access control and real-time data sync.",
+                    tags: ["Django", "Flutter", "React", "PostgreSQL"],
+                    link: "https://github.com/HaidaraIB/CRM-api-1"
+                },
+                {
+                    title: "Accounting App & API",
+                    desc: "A complete mobile solution with a dedicated Python backend. Implements advanced API calling, state management, and custom business logic tailored for regional requirements.",
+                    tags: ["Flutter", "Python", "REST API", "Dart"],
+                    link: "https://github.com/HaidaraIB/AlKhal"
+                },
+                {
+                    title: "Games Charger Bot",
+                    desc: "A high-concurrency Telegram automation tool designed for digital product delivery and payment processing logic.",
+                    tags: ["Python", "Telethon", "Automation"],
+                    link: "https://github.com/HaidaraIB/games_charger_bot"
+                },
+                {
+                    title: "UChat PayTabs Gateway",
+                    desc: "A specialized integration middleware connecting UChat chatbots with the PayTabs payment gateway API for automated billing.",
+                    tags: ["Python", "API Integration", "Fintech"],
+                    link: "https://github.com/HaidaraIB/uchat_paytabs_gateway"
+                },
+                {
+                    title: "To-Drive Uploader",
+                    desc: "A utility bot that bridges Telegram and Google Drive, handling large file streams and cloud storage management via API.",
+                    tags: ["Python", "Google Drive API", "Streams"],
+                    link: "https://github.com/HaidaraIB/to_drive_uploader"
+                },
+                {
+                    title: "Multi-Choice Math Bot",
+                    desc: "An educational automation tool that generates and evaluates mathematical quizzes dynamically through a chat interface.",
+                    tags: ["Python", "PTB", "Logic"],
+                    link: "https://github.com/HaidaraIB/multi_choices_math_bot"
+                },
+                {
+                    title: "Organize Me API",
+                    desc: "A task and resource management backend designed with a focus on clean architecture and efficient database indexing.",
+                    tags: ["Django", "DRF", "SQLite"],
+                    link: "https://github.com/HaidaraIB/organize_me_api"
+                }
+            ],
+            socials: [
+                { icon: "github", url: "https://github.com/HaidaraIB" },
+                { icon: "mail", url: "mailto:haidaraibrahim0938@gmail.com" }
+            ]
+        };
+
+        function render() {
+            document.getElementById('tagline-text').innerText = CONFIG.tagline;
+            document.getElementById('year').innerText = new Date().getFullYear();
+
+            const sList = document.getElementById('skills-list');
+            CONFIG.skills.forEach(s => {
+                sList.innerHTML += `
+                    <div class="skill-card" data-aos="zoom-in">
+                        <i data-lucide="${s.icon}"></i>
+                        <span class="skill-name">${s.name}</span>
+                    </div>
+                `;
+            });
+
+            const pList = document.getElementById('projects-list');
+            CONFIG.projects.forEach(p => {
+                pList.innerHTML += `
+                    <a href="${p.link}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                        <div class="project-card" data-aos="fade-up">
+                            <h3>${p.title}</h3>
+                            <p style="color: var(--text-dim); font-size: 0.95rem;">${p.desc}</p>
+                            <div class="project-tags">
+                                ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                            </div>
+                        </div>
+                    </a>
+                `;
+            });
+
+            const socList = document.getElementById('social-links');
+            CONFIG.socials.forEach(s => {
+                socList.innerHTML += `<a href="${s.url}"><i data-lucide="${s.icon}"></i></a>`;
+            });
+
+            lucide.createIcons();
+            AOS.init({ duration: 1000, once: true });
+        }
+
+        render();
+    </script>
+</body>
+
+</html>
