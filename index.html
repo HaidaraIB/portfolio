@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" dir="ltr">
 
 <head>
     <meta charset="UTF-8">
@@ -7,6 +7,7 @@
     <title>Haidara | Software Engineer</title>
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;600;800&display=swap"
         rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Cairo:wght@300;400;600;800&display=swap" rel="stylesheet">
     <script src="https://unpkg.com/lucide@latest"></script>
     <script src="https://cdn.jsdelivr.net/npm/simple-icons@v9/index.js"></script>
     <link href="https://unpkg.com/aos@2.3.1/dist/aos.css" rel="stylesheet">
@@ -26,7 +27,6 @@
             margin: 0;
             padding: 0;
             box-sizing: border-box;
-            font-family: 'Plus Jakarta Sans', sans-serif;
         }
 
         body {
@@ -34,6 +34,11 @@
             color: var(--text-main);
             overflow-x: hidden;
             scroll-behavior: smooth;
+            font-family: 'Plus Jakarta Sans', sans-serif;
+        }
+
+        body[dir="rtl"] {
+            font-family: 'Cairo', sans-serif;
         }
 
         /* Animated Gradient Background */
@@ -52,6 +57,48 @@
             max-width: 1100px;
             margin: 0 auto;
             padding: 0 2rem;
+        }
+
+        /* Language Switcher */
+        .lang-switcher {
+            position: fixed;
+            top: 30px;
+            right: 30px;
+            z-index: 1000;
+            display: flex;
+            gap: 10px;
+            background: var(--card-bg);
+            border: 1px solid var(--border);
+            padding: 8px;
+            border-radius: 12px;
+            backdrop-filter: blur(10px);
+        }
+
+        body[dir="rtl"] .lang-switcher {
+            right: auto;
+            left: 30px;
+        }
+
+        .lang-btn {
+            padding: 8px 16px;
+            background: transparent;
+            border: none;
+            color: var(--text-dim);
+            cursor: pointer;
+            border-radius: 8px;
+            font-weight: 600;
+            transition: all 0.3s;
+            font-size: 0.9rem;
+        }
+
+        .lang-btn:hover {
+            color: var(--text-main);
+            background: rgba(255, 255, 255, 0.05);
+        }
+
+        .lang-btn.active {
+            background: linear-gradient(90deg, var(--primary), var(--secondary));
+            color: #000;
         }
 
         section {
@@ -216,9 +263,36 @@
             transform: translateY(-3px);
         }
 
+        /* RTL Support */
+        body[dir="rtl"] {
+            direction: rtl;
+        }
+
+        body[dir="rtl"] .hero h1,
+        body[dir="rtl"] h2 {
+            text-align: right;
+        }
+
+        body[dir="rtl"] .hero p {
+            text-align: right;
+        }
+
+        body[dir="rtl"] .btn {
+            direction: rtl;
+        }
+
         @media (max-width: 768px) {
             .hero h1 {
                 font-size: 3rem;
+            }
+
+            .lang-switcher {
+                top: 20px;
+                right: 20px;
+            }
+
+            body[dir="rtl"] .lang-switcher {
+                left: 20px;
             }
         }
     </style>
@@ -228,13 +302,18 @@
 
     <div class="mesh"></div>
 
+    <div class="lang-switcher">
+        <button class="lang-btn active" data-lang="en">EN</button>
+        <button class="lang-btn" data-lang="ar">AR</button>
+    </div>
+
     <div class="container">
         <section class="hero" data-aos="fade-up">
-            <p style="color: var(--primary); font-weight: 600; letter-spacing: 2px;">GRADUATE SOFTWARE ENGINEER</p>
-            <h1>I'm <span>Haidara.</span></h1>
+            <p id="role-text"></p>
+            <h1 id="name-text"></h1>
             <p id="tagline-text"></p>
             <div>
-                <a href="#projects" class="btn">View Projects</a>
+                <a href="#projects" class="btn" id="view-projects-btn"></a>
             </div>
         </section>
 
@@ -256,76 +335,175 @@
 
     <script src="https://unpkg.com/aos@2.3.1/dist/aos.js"></script>
     <script>
-        const CONFIG = {
-            tagline: "Information Technology Engineering Graduate crafting high-concurrency Python systems, automated Telegram ecosystems, and feature-rich Flutter applications.",
-            // Icons from Lucide or SimpleIcons slugs
-            skills: [
-                { name: "Python (Expert)", icon: "terminal" },
-                { name: "Django / Django REST Framework (DRF)", icon: "server" },
-                { name: "Telegram Automation", icon: "send" },
-                { name: "Flutter", icon: "smartphone" },
-                { name: "Firebase", icon: "server" },
-                { name: "React", icon: "layers" },
-                { name: "SQL", icon: "database" },
-                { name: "MongoDB", icon: "server" },
-                { name: "IT Engineering Core", icon: "book-open" }
-            ],
-            projects: [
-                {
-                    title: "Enterprise CRM Ecosystem",
-                    desc: "A full-scale CRM suite comprising a Django REST backend, a Flutter mobile app for clients, and a React admin dashboard. Features complex role-based access control and real-time data sync.",
-                    tags: ["Django", "Flutter", "Firebase", "React", "SQL", "API Integration"],
-                    link: "https://github.com/HaidaraIB/CRM-api-1"
-                },
-                {
-                    title: "Accounting App & API",
-                    desc: "A complete mobile solution with a dedicated Python backend. Implements advanced API calling, state management, and custom business logic tailored for regional requirements.",
-                    tags: ["Flutter", "Django REST Framework (DRF)", "SQL"],
-                    link: "https://github.com/HaidaraIB/AlKhal"
-                },
-                {
-                    title: "Games Charger Bot",
-                    desc: "A high-concurrency Telegram automation tool designed for digital product delivery and payment processing logic.",
-                    tags: ["Python Telegram Bot (PTB)", "Automation"],
-                    link: "https://github.com/HaidaraIB/games_charger_bot"
-                },
-                {
-                    title: "UChat PayTabs Gateway",
-                    desc: "A specialized integration middleware connecting UChat chatbots with the PayTabs payment gateway API for automated billing.",
-                    tags: ["Django", "API Integration", "SQL"],
-                    link: "https://github.com/HaidaraIB/uchat_paytabs_gateway"
-                },
-                {
-                    title: "To-Drive Uploader",
-                    desc: "A utility bot that bridges Telegram and Google Drive, handling large file streams and cloud storage management via API.",
-                    tags: ["Python", "Google Drive API", "Streams"],
-                    link: "https://github.com/HaidaraIB/to_drive_uploader"
-                },
-                {
-                    title: "Multi-Choice Math Bot",
-                    desc: "An educational automation tool that generates and evaluates mathematical quizzes dynamically through a chat interface.",
-                    tags: ["Python Telegram Bot (PTB)", "Logic"],
-                    link: "https://github.com/HaidaraIB/multi_choices_math_bot"
-                },
-                {
-                    title: "Organize Me API",
-                    desc: "A task and resource management backend designed with a focus on clean architecture and efficient database indexing.",
-                    tags: ["Django REST Framework (DRF)", "SQL"],
-                    link: "https://github.com/HaidaraIB/organize_me_api"
-                }
-            ],
-            socials: [
-                { icon: "github", url: "https://github.com/HaidaraIB" },
-                { icon: "mail", url: "mailto:haidaraibrahim0938@gmail.com" }
-            ]
+        const TRANSLATIONS = {
+            en: {
+                role: "GRADUATE SOFTWARE ENGINEER",
+                name: "I'm <span>Haidara.</span>",
+                tagline: "Information Technology Engineering Graduate crafting high-concurrency Python systems, automated Telegram ecosystems, and feature-rich Flutter applications.",
+                viewProjects: "View Projects",
+                expertise: "Expertise",
+                selectedWorks: "Selected Works",
+                footer: "Designed for performance. &copy;",
+                skills: [
+                    { name: "Python (Expert)", icon: "terminal" },
+                    { name: "Django / Django REST Framework (DRF)", icon: "server" },
+                    { name: "Telegram Automation", icon: "send" },
+                    { name: "Flutter", icon: "smartphone" },
+                    { name: "Firebase", icon: "server" },
+                    { name: "React", icon: "layers" },
+                    { name: "SQL", icon: "database" },
+                    { name: "MongoDB", icon: "server" },
+                    { name: "IT Engineering Core", icon: "book-open" }
+                ],
+                projects: [
+                    {
+                        title: "Enterprise CRM Ecosystem",
+                        desc: "A full-scale CRM suite comprising a Django REST backend, a Flutter mobile app for clients, and a React admin dashboard. Features complex role-based access control and real-time data sync.",
+                        tags: ["Django", "Flutter", "Firebase", "React", "SQL", "API Integration"]
+                    },
+                    {
+                        title: "Accounting App & API",
+                        desc: "A complete mobile solution with a dedicated Python backend. Implements advanced API calling, state management, and custom business logic tailored for regional requirements.",
+                        tags: ["Flutter", "Django REST Framework (DRF)", "SQL"]
+                    },
+                    {
+                        title: "Games Charger Bot",
+                        desc: "A high-concurrency Telegram automation tool designed for digital product delivery and payment processing logic.",
+                        tags: ["Python Telegram Bot (PTB)", "Automation"]
+                    },
+                    {
+                        title: "UChat PayTabs Gateway",
+                        desc: "A specialized integration middleware connecting UChat chatbots with the PayTabs payment gateway API for automated billing.",
+                        tags: ["Django", "API Integration", "SQL"]
+                    },
+                    {
+                        title: "To-Drive Uploader",
+                        desc: "A utility bot that bridges Telegram and Google Drive, handling large file streams and cloud storage management via API.",
+                        tags: ["Python", "Google Drive API", "Streams"]
+                    },
+                    {
+                        title: "Multi-Choice Math Bot",
+                        desc: "An educational automation tool that generates and evaluates mathematical quizzes dynamically through a chat interface.",
+                        tags: ["Python Telegram Bot (PTB)", "Logic"]
+                    },
+                    {
+                        title: "Organize Me API",
+                        desc: "A task and resource management backend designed with a focus on clean architecture and efficient database indexing.",
+                        tags: ["Django REST Framework (DRF)", "SQL"]
+                    }
+                ]
+            },
+            ar: {
+                role: "مهندس برمجيات خريج",
+                name: "أنا <span>حيدرة.</span>",
+                tagline: "خريج هندسة تقنية المعلومات متخصص في بناء أنظمة Python عالية التزامن، أنظمة Telegram الآلية، وتطبيقات Flutter غنية بالميزات.",
+                viewProjects: "عرض المشاريع",
+                expertise: "الخبرات",
+                selectedWorks: "أعمال مختارة",
+                footer: "مصمم للأداء العالي. &copy;",
+                skills: [
+                    { name: "Python (خبير)", icon: "terminal" },
+                    { name: "Django / Django REST Framework (DRF)", icon: "server" },
+                    { name: "أتمتة Telegram", icon: "send" },
+                    { name: "Flutter", icon: "smartphone" },
+                    { name: "Firebase", icon: "server" },
+                    { name: "React", icon: "layers" },
+                    { name: "SQL", icon: "database" },
+                    { name: "MongoDB", icon: "server" },
+                    { name: "أساسيات هندسة تقنية المعلومات", icon: "book-open" }
+                ],
+                projects: [
+                    {
+                        title: "نظام CRM المؤسسي",
+                        desc: "مجموعة CRM كاملة تتضمن خادم Django REST، تطبيق Flutter للعملاء، ولوحة تحكم React للمدراء. يتضمن نظام تحكم وصول معقد قائم على الأدوار ومزامنة بيانات فورية.",
+                        tags: ["Django", "Flutter", "Firebase", "React", "SQL", "تكامل API"]
+                    },
+                    {
+                        title: "تطبيق المحاسبة و API",
+                        desc: "حل موبايل كامل مع خادم Python مخصص. ينفذ استدعاءات API متقدمة، إدارة الحالة، ومنطق أعمال مخصص مصمم للمتطلبات الإقليمية.",
+                        tags: ["Flutter", "Django REST Framework (DRF)", "SQL"]
+                    },
+                    {
+                        title: "بوت شحن الألعاب",
+                        desc: "أداة أتمتة Telegram عالية التزامن مصممة لتسليم المنتجات الرقمية ومعالجة منطق الدفع.",
+                        tags: ["Python Telegram Bot (PTB)", "أتمتة"]
+                    },
+                    {
+                        title: "بوابة UChat PayTabs",
+                        desc: "برمجية تكامل متخصصة تربط روبوتات المحادثة UChat مع بوابة الدفع PayTabs API للفوترة الآلية.",
+                        tags: ["Django", "تكامل API", "SQL"]
+                    },
+                    {
+                        title: "رفع To-Drive",
+                        desc: "بوت مساعد يربط بين Telegram و Google Drive، يتعامل مع تدفقات الملفات الكبيرة وإدارة التخزين السحابي عبر API.",
+                        tags: ["Python", "Google Drive API", "تدفقات"]
+                    },
+                    {
+                        title: "بوت الرياضيات متعدد الخيارات",
+                        desc: "أداة تعليمية آلية تولد وتقيم اختبارات رياضية ديناميكياً من خلال واجهة محادثة.",
+                        tags: ["Python Telegram Bot (PTB)", "منطق"]
+                    },
+                    {
+                        title: "API Organize Me",
+                        desc: "خادم إدارة المهام والموارد مصمم مع التركيز على البنية النظيفة وفهرسة قاعدة البيانات الفعالة.",
+                        tags: ["Django REST Framework (DRF)", "SQL"]
+                    }
+                ]
+            }
         };
 
-        function render() {
-            document.getElementById('tagline-text').innerText = CONFIG.tagline;
-            document.getElementById('year').innerText = new Date().getFullYear();
+        const PROJECT_LINKS = [
+            "https://github.com/HaidaraIB/CRM-api-1",
+            "https://github.com/HaidaraIB/AlKhal",
+            "https://github.com/HaidaraIB/games_charger_bot",
+            "https://github.com/HaidaraIB/uchat_paytabs_gateway",
+            "https://github.com/HaidaraIB/to_drive_uploader",
+            "https://github.com/HaidaraIB/multi_choices_math_bot",
+            "https://github.com/HaidaraIB/organize_me_api"
+        ];
 
+        const SOCIALS = [
+            { icon: "github", url: "https://github.com/HaidaraIB" },
+            { icon: "mail", url: "mailto:haidaraibrahim0938@gmail.com" }
+        ];
+
+        let currentLang = localStorage.getItem('lang') || 'en';
+
+        function setLanguage(lang) {
+            currentLang = lang;
+            localStorage.setItem('lang', lang);
+            
+            const t = TRANSLATIONS[lang];
+            const html = document.documentElement;
+            
+            // Update HTML attributes
+            html.lang = lang;
+            html.dir = lang === 'ar' ? 'rtl' : 'ltr';
+            
+            // Update role
+            document.getElementById('role-text').innerHTML = `<span style="color: var(--primary); font-weight: 600; letter-spacing: 2px;">${t.role}</span>`;
+            
+            // Update name
+            document.getElementById('name-text').innerHTML = t.name;
+            
+            // Update tagline
+            document.getElementById('tagline-text').innerText = t.tagline;
+            
+            // Update button
+            document.getElementById('view-projects-btn').innerText = t.viewProjects;
+            
+            // Update section titles
+            document.querySelector('#skills h2').innerText = t.expertise;
+            document.querySelector('#projects h2').innerText = t.selectedWorks;
+            
+            // Update footer
+            const year = new Date().getFullYear();
+            document.querySelector('footer p').innerHTML = `${t.footer} <span id="year">${year}</span> Haidara.`;
+            
+            // Update skills
             const sList = document.getElementById('skills-list');
-            CONFIG.skills.forEach(s => {
+            sList.innerHTML = '';
+            t.skills.forEach(s => {
                 sList.innerHTML += `
                     <div class="skill-card" data-aos="zoom-in">
                         <i data-lucide="${s.icon}"></i>
@@ -333,28 +511,51 @@
                     </div>
                 `;
             });
-
+            
+            // Update projects
             const pList = document.getElementById('projects-list');
-            CONFIG.projects.forEach(p => {
+            pList.innerHTML = '';
+            t.projects.forEach((p, index) => {
                 pList.innerHTML += `
-                    <a href="${p.link}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
+                    <a href="${PROJECT_LINKS[index]}" target="_blank" rel="noopener noreferrer" style="text-decoration: none; color: inherit;">
                         <div class="project-card" data-aos="fade-up">
                             <h3>${p.title}</h3>
                             <p style="color: var(--text-dim); font-size: 0.95rem;">${p.desc}</p>
                             <div class="project-tags">
-                                ${p.tags.map(t => `<span class="tag">${t}</span>`).join('')}
+                                ${p.tags.map(tag => `<span class="tag">${tag}</span>`).join('')}
                             </div>
                         </div>
                     </a>
                 `;
             });
+            
+            // Update language buttons
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.classList.toggle('active', btn.dataset.lang === lang);
+            });
+            
+            // Reinitialize icons and animations
+            lucide.createIcons();
+            AOS.refresh();
+        }
 
+        function render() {
+            setLanguage(currentLang);
+            
+            // Render socials (same for both languages)
             const socList = document.getElementById('social-links');
-            CONFIG.socials.forEach(s => {
+            socList.innerHTML = '';
+            SOCIALS.forEach(s => {
                 socList.innerHTML += `<a href="${s.url}"><i data-lucide="${s.icon}"></i></a>`;
             });
-
-            lucide.createIcons();
+            
+            // Language switcher event listeners
+            document.querySelectorAll('.lang-btn').forEach(btn => {
+                btn.addEventListener('click', () => {
+                    setLanguage(btn.dataset.lang);
+                });
+            });
+            
             AOS.init({ duration: 1000, once: true });
         }
 
