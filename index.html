@@ -535,6 +535,13 @@
                 btn.classList.toggle('active', btn.dataset.lang === lang);
             });
             
+            // Update social links
+            const socList = document.getElementById('social-links');
+            socList.innerHTML = '';
+            SOCIALS.forEach(s => {
+                socList.innerHTML += `<a href="${s.url}"><i data-lucide="${s.icon}"></i></a>`;
+            });
+            
             // Reinitialize icons and animations
             lucide.createIcons();
             AOS.refresh();
@@ -549,6 +556,9 @@
             SOCIALS.forEach(s => {
                 socList.innerHTML += `<a href="${s.url}"><i data-lucide="${s.icon}"></i></a>`;
             });
+            
+            // Initialize icons after adding social links
+            lucide.createIcons();
             
             // Language switcher event listeners
             document.querySelectorAll('.lang-btn').forEach(btn => {
